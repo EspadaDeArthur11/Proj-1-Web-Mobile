@@ -1,7 +1,9 @@
 ### Integrantes
 
 10417996 - Felipe Viviani Schulze
+
 10771402 - Hector Krassuski Chust
+
 10190670 - André Bispo
 
 # Projeto 1 Web Mobile
