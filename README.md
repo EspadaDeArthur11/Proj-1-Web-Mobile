@@ -1,3 +1,9 @@
+### Integrantes
+
+10417996 - Felipe Viviani Schulze
+10771402 - Hector Krassuski Chust
+10190670 - André Bispo
+
 # Projeto 1 Web Mobile
 
 A conscientização sobre reciclagem é essencial para reduzir resíduos em aterros, evitar contaminação de materiais e melhorar a cadeia de manejo. Muitas vezes falta informação prática sobre como separar itens no dia a dia. Um jogo educativo, com atividades simples e repetitivas, ajuda a transformar conhecimento em hábitos.
