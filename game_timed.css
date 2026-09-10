@@ -1,2 +1,116 @@
 @import url("variaveis.css");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap");
 
+body {
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+    background-image: url("assets/Background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--cor-texto);
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+#cabecalho-jogo {
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+#cabecalho-jogo h3,
+#cabecalho-jogo h1,
+#cabecalho-jogo p {
+    background-color: var(--cor-caixa-cabecalho);
+    border: 2px solid var(--cor-primaria-hover);
+    color: white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+#pontuacao {
+    font-family: "Orbitron", sans-serif;
+    font-size: 2em;
+}
+
+#coracoes {
+    display: inline-flex;
+    gap: 4px;
+    vertical-align: middle;
+}
+
+#coracoes img {
+    width: 28px;
+    height: 28px;
+}
+
+main {
+    flex: 1;
+    padding: clamp(16px, 5vw, 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+#lixo-classico {
+    width: min(40vw, 150px);
+    height: auto;
+    margin: auto;
+}
+
+#lixeiras-classico {
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(8px, 3vw, 24px);
+}
+
+#lixeiras-classico img {
+    width: clamp(48px, 15vw, 100px);
+    height: auto;
+}
+
+@media (max-width: 600px) {
+    body {
+        background-image: url("assets/Background-mobile.png"), url("assets/Background.png");
+        background-attachment: scroll;
+    }
+
+    #cabecalho-jogo {
+        justify-content: center;
+    }
+
+    #cabecalho-jogo h3,
+    #cabecalho-jogo p,
+    #cabecalho-jogo h1 {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    #pontuacao {
+        font-size: clamp(1.1em, 7vw, 2em);
+    }
+
+    #coracoes img {
+        width: clamp(22px, 7vw, 28px);
+        height: clamp(22px, 7vw, 28px);
+    }
+
+    #lixeiras-classico {
+        gap: 8px;
+        padding: 8px 0;
+    }
+}
