@@ -2,29 +2,32 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <title>Eco Mania</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Time</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game_timed.css">
 </head>
 <body>
-    <header>
-        <h3>Modo por Tempo</h3>
+    <header id="cabecalho-jogo">
+        <h3>Modo Clássico</h3>
         <p>
-            Pontuação: <output id="pontuacao">0</output>
+            <output id="pontuacao">00000</output>
         </p>
-        <h1>1:00</h1>
+
+        <h1>
+           1:00
+        </h1>
     </header>
     <main>
-        <img src="assets/lixo.png" alt="Lixo">
-        <section id=" lixeiras">
-            <img src="assets/lixeiraPapel.png" alt="Lixeira de papel">
-            <img src="assets/lixeiraMetal.png" alt="Lixeira de metal">
-            <img src="assets/lixeiraPlastico.png" alt="Lixeira de plastico">
-            <img src="assets/lixeiraVidro.png" alt="Lixeira de vidro">
-            <img src="assets/lixeiraOrganico.png" alt="Lixeira de organico">
-        </section>
+        <img id="lixo-classico" src="assets/lixo.png" alt="lixo" draggable="true">
 
+        <section id="lixeiras-classico">
+            <img src="assets/lixeiraPapel.png" alt="Lixeira Papel">
+            <img src="assets/lixeiraMetal.png" alt="Lixeira Metal">
+            <img src="assets/lixeiraPlastico.png" alt="Lixeira Plastico">
+            <img src="assets/lixeiraVidro.png" alt="Lixeira Vidro">
+            <img src="assets/lixeiraOrganico.png" alt="Lixeira Organico">
+        </section>
     </main>
-    
+
 </body>
 </html>
