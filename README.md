@@ -1,10 +1,12 @@
 ### Integrantes
 
+10190670 - André Bispo
+
 10417996 - Felipe Viviani Schulze
 
-10771402 - Hector Krassuski Chust
+10420207 - Gabriel Rocha Aboboreira
 
-10190670 - André Bispo
+10771402 - Hector Krassuski Chust
 
 # Projeto 1 Web Mobile
 
