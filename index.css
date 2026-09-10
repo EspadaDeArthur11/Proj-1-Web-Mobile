@@ -1,2 +1,9 @@
 @import url("variaveis.css");
 
+#tela-inicial {
+    background-color: #ffffff;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 2px solid #00722e;
+    border-radius: 12px;
