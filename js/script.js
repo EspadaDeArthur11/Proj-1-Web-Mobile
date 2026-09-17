@@ -285,7 +285,7 @@ function terminarPartida() {
     salvar(sessionStorage, "ecomania_bateu_recorde", bateuRecorde);
     salvar(sessionStorage, "ecomania_pior", categoriaComMaisErros());
 
-    window.location.href = "final.html";
+    window.location.href = "final_menu.html";
 }
 
 function prepararLixeiras() {
