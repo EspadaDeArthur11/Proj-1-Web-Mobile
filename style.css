@@ -1,9 +1,39 @@
 :root {
-    --cor-fundo: rgb(144, 232, 173);
-    --cor-primaria: rgb(107, 189, 134);
-    --cor-primaria-hover: rgb(87, 155, 109);
-    --cor-texto: rgb(15, 33, 22);
+    /* ambiente */
+    --fundo:          #0a2420;
+    --fundo-solido:   #0e2f29;
+    --painel:         rgba(255, 255, 255, 0.07);
+    --painel-forte:   rgba(255, 255, 255, 0.11);
+    --linha:          rgba(255, 255, 255, 0.13);
+    --linha-forte:    rgba(255, 255, 255, 0.22);
+
+    /* texto */
+    --texto:          #eaf6f1;
+    --texto-medio:    #a9c9bd;
+    --texto-fraco:    #7ba396;
+
+    /* ação */
+    --acento:         #3ddc97;
+    --acento-fundo:   rgba(61, 220, 151, 0.12);
+    --acento-escuro:  #17a06b;
+
+    /* estados */
+    --acerto:         #3ddc97;
+    --erro:           #ff7b72;
+
+    /* cores oficiais da resolução CONAMA 275 */
+    --vidro:          #2e7d32;
+    --plastico:       #c62828;
+    --papel:          #1565c0;
+    --organico:       #6d4c34;
+    --metal:          #f2a413;
+
+    /* medidas */
+    --curva:          18px;
+    --curva-p:        10px;
+    --largura:        980px;
 }
+
 
 * {
     margin: 0;
@@ -11,85 +41,691 @@
     box-sizing: border-box;
 }
 
+
 body {
+    font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: var(--texto);
+    background-color: var(--fundo);
+    background-image: url("../assets/cenario.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     min-height: 100vh;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-img {
-    max-width: 100%;
-}
-
-h1, h2, h3 {
-    text-align: center;
-}
-
-button {
-    background-color: var(--cor-primaria);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 24px;
-    color: var(--cor-texto);
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-button:hover {
-    background-color: var(--cor-primaria-hover);
-}
-
-.tela {
-    min-height: 100vh;
+    padding: 32px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 16px;
-    padding: 32px;
+    justify-content: center;
+    gap: 22px;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+.tela-jogo {
+    justify-content: space-between;
+}
+
+
+.painel {
+    width: 100%;
+    background-color: var(--painel);
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+    border: 1px solid var(--linha);
+    border-top-color: var(--linha-forte);
+    border-radius: var(--curva);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42),
+                inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+
+.painel-menu {
+    max-width: 520px;
+    padding: 44px 40px 34px;
     text-align: center;
+}
+
+.marca h1 {
+    font-size: clamp(30px, 7vw, 46px);
+    font-weight: 300;
+    letter-spacing: 0.10em;
+    line-height: 1;
+}
+
+
+.marca-destaque {
+    font-weight: 800;
+    color: var(--acento);
+}
+
+
+.marca-faixa {
+    height: 6px;
+    width: 200px;
+    margin: 18px auto 0;
+    border-radius: 3px;
+    background: linear-gradient(90deg,
+        var(--vidro)    0    20%,
+        var(--plastico) 20%  40%,
+        var(--papel)    40%  60%,
+        var(--organico) 60%  80%,
+        var(--metal)    80%  100%);
 }
 
 .subtitulo {
-    font-weight: bold;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--texto-fraco);
+    letter-spacing: 0.02em;
 }
 
 .descricao {
-    max-width: 700px;
-    line-height: 1.5;
+    margin: 26px 0 30px;
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--texto-medio);
+    text-align: left;
 }
 
-.tela a {
+
+.modos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.modo {
+    display: block;
+    text-decoration: none;
+    color: var(--texto);
+    background-color: var(--painel-forte);
+    border: 1px solid var(--linha);
+    border-radius: var(--curva-p);
+    padding: 16px 20px 16px 24px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+
+.modo::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+}
+
+.modo-classico::before { background-color: var(--acento); }
+.modo-tempo::before    { background-color: var(--metal); }
+
+.modo-nome {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.modo-info {
+    display: block;
+    font-size: 12.5px;
+    color: var(--texto-fraco);
+    margin-top: 4px;
+}
+
+
+.modo:hover {
+    transform: translateX(4px);
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--linha-forte);
+}
+
+
+.acessibilidade {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--linha);
+    font-size: 13px;
+    color: var(--texto-fraco);
+    text-align: left;
+    cursor: pointer;
+}
+
+.acessibilidade input {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--acento);
+}
+
+
+.hud {
+    width: 100%;
+    max-width: var(--largura);
+    background-color: var(--painel);
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+    border: 1px solid var(--linha);
+    border-radius: var(--curva);
+    padding: 16px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.hud-modo {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--acento);
+    letter-spacing: 0.02em;
+}
+
+.hud-item {
+    text-align: center;
+}
+
+.hud-rotulo {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--texto-fraco);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+
+.hud-item output {
+    display: block;
+    margin-top: 4px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+#vidas {
+    color: var(--erro);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.hud-relogio output {
+    font-size: 34px;
+    color: var(--metal);
+}
+
+
+.arena {
+    width: 100%;
+    max-width: var(--largura);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 18px;
 }
 
-header {
-    background-color: var(--cor-primaria);
-    padding: 16px;
+
+.palco {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 40px 10px;
+}
+
+
+.palco::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(61, 220, 151, 0.26) 0%,
+        rgba(61, 220, 151, 0.08) 45%,
+        rgba(61, 220, 151, 0) 70%);
+
+    
+    z-index: -1;
+}
+
+.residuo {
+    width: clamp(96px, 20vw, 148px);
+    height: clamp(96px, 20vw, 148px);
+    object-fit: contain;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.45));
+    cursor: grab;
+    transition: transform 0.2s;
+}
+
+.residuo:hover  { transform: scale(1.05); }
+.residuo:active { cursor: grabbing; }
+
+.residuo-nome {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--texto-medio);
+}
+
+
+.feedback {
+    min-height: 46px;
+    max-width: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--texto-medio);
+    padding: 11px 22px;
+
+    background-color: var(--painel);
+    border: 1px solid var(--linha);
+    border-radius: 999px;
+}
+
+
+.feedback.acerto {
+    color: var(--acerto);
+    border-color: rgba(61, 220, 151, 0.45);
+    background-color: rgba(61, 220, 151, 0.12);
+}
+
+.feedback.erro {
+    color: var(--erro);
+    border-color: rgba(255, 123, 114, 0.45);
+    background-color: rgba(255, 123, 114, 0.12);
+}
+
+
+.lixeiras {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 100px;
+    align-items: flex-end;
+    gap: 16px;
+    margin-top: 4px;
+    flex-wrap: wrap;
 }
 
-main {
-    padding: 32px;
+
+.lixeira {
+    background: none;
+    border: none;
+    padding: 8px 6px;
+    cursor: pointer;
+    font-family: inherit;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+
+    transition: transform 0.22s;
 }
 
-section {
-    padding: 16px;
+.lixeira img {
+    display: block;
+    width: clamp(58px, 9vw, 112px);
+    height: auto;
+    filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.5));
+    transition: filter 0.22s;
+    pointer-events: none;
+}
+
+
+.lixeira:hover {
+    transform: translateY(-14px);
+}
+
+
+.lixeira[data-tipo="vidro"]:hover img {
+    filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 22px var(--vidro));
+}
+.lixeira[data-tipo="plastico"]:hover img {
+    filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 22px var(--plastico));
+}
+.lixeira[data-tipo="papel"]:hover img {
+    filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 22px var(--papel));
+}
+.lixeira[data-tipo="organico"]:hover img {
+    filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 22px #a97c52);
+}
+.lixeira[data-tipo="metal"]:hover img {
+    filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 22px var(--metal));
+}
+
+
+.lixeira-nome {
+    display: none;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--fundo);
+    background-color: var(--texto);
+    padding: 4px 11px;
+    border-radius: 999px;
+}
+
+
+body.daltonico .lixeira-nome {
+    display: block;
+}
+
+
+.painel-final {
+    max-width: 540px;
+    padding: 38px 36px 32px;
+    text-align: center;
+}
+
+.selo {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--acento);
+    background-color: var(--acento-fundo);
+    border: 1px solid rgba(61, 220, 151, 0.3);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+}
+
+.cabecalho-final h1 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.destaque {
+    margin: 26px 0 20px;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.22);
+    border: 1px solid var(--linha);
+    border-radius: var(--curva-p);
+}
+
+.destaque-rotulo {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--texto-fraco);
+}
+
+.destaque-numero {
+    display: block;
+    margin: 6px 0 8px;
+    font-size: clamp(42px, 11vw, 60px);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--acento);
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+.destaque-recorde {
+    font-size: 13px;
+    color: var(--texto-fraco);
+}
+
+.resultado {
+    margin-bottom: 16px;
+    padding: 20px 22px;
+    background-color: var(--painel-forte);
+    border: 1px solid var(--linha);
+    border-radius: var(--curva-p);
+    text-align: left;
+}
+
+.resultado h2,
+.licao h2 {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--texto-fraco);
+    margin-bottom: 6px;
+}
+
+.linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 14.5px;
+    color: var(--texto-medio);
+    padding: 11px 0;
+    border-bottom: 1px solid var(--linha);
+}
+
+
+.linha:last-child {
+    border-bottom: none;
+}
+
+.linha output {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--texto);
+    font-variant-numeric: tabular-nums;
+}
+
+.licao {
+    padding: 20px 22px;
+    background-color: rgba(242, 164, 19, 0.10);
+    border: 1px solid rgba(242, 164, 19, 0.28);
+    border-radius: var(--curva-p);
+    text-align: left;
+}
+
+.licao p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--texto-medio);
+}
+
+
+.acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.botao {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: var(--curva-p);
+    transition: transform 0.18s, background-color 0.18s;
+}
+
+.botao-principal {
+    background-color: var(--acento);
+    color: #06231b;
+}
+
+.botao-principal:hover {
+    background-color: #58e9ab;
+    transform: translateY(-2px);
+}
+
+.botao-discreto {
+    background-color: var(--painel-forte);
+    color: var(--texto-medio);
+    border: 1px solid var(--linha);
+}
+
+.botao-discreto:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: var(--texto);
+}
+
+.rodape {
+    font-size: 12px;
+    color: var(--texto-fraco);
+}
+
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--acento);
+    outline-offset: 4px;
+    border-radius: var(--curva-p);
+}
+
+
+/* ---------- TABLET ---------- */
+@media (max-width: 900px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .hud {
+        padding: 14px 20px;
+        gap: 16px;
+    }
+
+    .lixeiras {
+        gap: 12px;
+    }
+}
+
+
+/* ---------- CELULAR ---------- */
+@media (max-width: 620px) {
+
+    body {
+        background-attachment: scroll;
+        padding: 18px 14px;
+        gap: 16px;
+    }
+
+    .painel-menu,
+    .painel-final {
+        padding: 30px 22px 24px;
+    }
+
+    .hud {
+        padding: 13px 16px;
+        gap: 12px;
+    }
+
+    .hud-modo       { font-size: 13px; }
+    .hud-rotulo     { font-size: 9.5px; letter-spacing: 0.10em; }
+    .hud-item output { font-size: 20px; }
+    .hud-relogio output { font-size: 26px; }
+
+    .lixeiras   { gap: 10px; }
+    .lixeira    { padding: 6px 3px; }
+    .lixeira-nome { font-size: 9.5px; padding: 3px 8px; letter-spacing: 0.06em; }
+
+    .feedback {
+        font-size: 13px;
+        padding: 10px 18px;
+        border-radius: 16px;
+    }
+
+    .descricao { font-size: 14.5px; }
+    .cabecalho-final h1 { font-size: 24px; }
+    .resultado, .licao { padding: 16px 18px; }
+    .linha { font-size: 13.5px; padding: 9px 0; }
+}
+
+
+/* ---------- CELULAR ESTREITO ---------- */
+@media (max-width: 400px) {
+
+    .lixeiras {
+        gap: 8px;
+    }
+
+    .hud {
+        flex-wrap: wrap;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .hud-modo {
+        flex-basis: 100%;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--linha);
+    }
+
+    .hud-item {
+        flex: 1;
+    }
+
+    .lixeiras {
+        max-width: 258px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+
+@media (max-height: 520px) and (orientation: landscape) {
+    body {
+        padding: 10px 16px;
+        gap: 8px;
+        background-attachment: scroll;
+    }
+
+    .hud {
+        padding: 8px 18px;
+    }
+
+    .hud-rotulo      { font-size: 9px; }
+    .hud-item output { font-size: 17px; margin-top: 1px; }
+    .hud-relogio output { font-size: 22px; }
+
+    .arena  { gap: 8px; }
+    .palco  { padding: 4px 20px 0; }
+
+    .residuo {
+        width: clamp(64px, 13vh, 96px);
+        height: clamp(64px, 13vh, 96px);
+    }
+
+    .palco::before { width: 170px; height: 170px; }
+    .residuo-nome  { margin-top: 4px; font-size: 12px; }
+
+    .feedback {
+        min-height: 0;
+        padding: 7px 16px;
+        font-size: 12.5px;
+    }
+
+    .lixeira img  { width: clamp(52px, 19vh, 84px); }
+    .lixeira      { padding: 3px; }
+    .lixeira-nome { margin-top: 5px; }
+
+    .botao { padding: 9px 20px; font-size: 13px; }
 }
