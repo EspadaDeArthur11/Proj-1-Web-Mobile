@@ -7,7 +7,6 @@
      5. O que roda em cada página
    ========================================================= */
 
-
 let residuos = [
 
     // ----- VIDRO -----
@@ -61,7 +60,6 @@ let residuos = [
       explicacao: "Apesar do nome, papel alumínio é metal, e não papel." }
 ];
 
-
 let nomesLixeira = {
     vidro: "vidro",
     plastico: "plástico",
@@ -69,7 +67,6 @@ let nomesLixeira = {
     organico: "orgânico",
     metal: "metal"
 };
-
 
 let pontuacao = 0;
 let vidas = 3;
@@ -91,7 +88,6 @@ let errosPorCategoria = {
     metal: 0
 };
 
-
 function salvar(gaveta, chave, valor) {
     try {
         gaveta.setItem(chave, valor);
@@ -100,8 +96,7 @@ function salvar(gaveta, chave, valor) {
     }
 }
 
-
-function pegar(gaveta, chave, padrao) {
+function pegar(gaveta, chave, padrao=0) {
     try {
         let valor = gaveta.getItem(chave);
 
@@ -116,7 +111,6 @@ function pegar(gaveta, chave, padrao) {
     }
 }
 
-
 function aplicarDaltonico() {
     let escolha = pegar(localStorage, "ecomania_daltonico", "nao");
 
@@ -128,7 +122,6 @@ function aplicarDaltonico() {
         return false;
     }
 }
-
 
 function sortearResiduo() {
     let posicao = Math.floor(Math.random() * residuos.length);
@@ -147,7 +140,6 @@ function sortearResiduo() {
 
     document.getElementById("residuo-nome").textContent = residuoAtual.nome;
 }
-
 
 function verificarResposta(lixeiraEscolhida) {
 
@@ -206,7 +198,6 @@ function verificarResposta(lixeiraEscolhida) {
     }
 }
 
-
 function proximaRodada() {
     podeJogar = true;
 
@@ -216,7 +207,6 @@ function proximaRodada() {
 
     sortearResiduo();
 }
-
 
 function atualizarPainel() {
     document.getElementById("pontuacao").textContent = pontuacao;
@@ -234,13 +224,11 @@ function atualizarPainel() {
     document.getElementById("vidas").textContent = coracoes;
 }
 
-
 function mostrarFeedback(texto, tipo) {
     let faixa = document.getElementById("feedback");
     faixa.textContent = texto;
     faixa.className = "feedback " + tipo;
 }
-
 
 function categoriaComMaisErros() {
     let pior = "";
@@ -256,7 +244,6 @@ function categoriaComMaisErros() {
     return pior;
 }
 
-
 function terminarPartida() {
     let recordeAntigo = Number(pegar(localStorage, "ecomania_recorde_classico", 0));
     let bateuRecorde = "nao";
@@ -267,6 +254,27 @@ function terminarPartida() {
         bateuRecorde = "sim";
     }
 
+    // Salvar pontuação da penúltima rodada
+    salvar(sessionStorage, "ecomania_pontuacao_2", 
+        pegar(sessionStorage, "ecomania_pontuacao")
+    );
+    salvar(sessionStorage, "ecomania_vidas_2",
+        pegar(sessionStorage, "ecomania_vidas")
+    );
+    salvar(sessionStorage, "ecomania_acertos_2",
+        pegar(sessionStorage, "ecomania_acertos")
+    );
+    salvar(sessionStorage, "ecomania_erros_2",
+        pegar(sessionStorage, "ecomania_erros")
+    );
+    salvar(sessionStorage, "ecomania_consecutivos_2",
+        pegar(sessionStorage, "ecomania_consecutivos")
+    );
+    salvar(sessionStorage, "ecomania_pior_2",
+        pegar(sessionStorage, "ecomania_pior")
+    );
+
+    // Salvar pontuação da última rodada
     salvar(sessionStorage, "ecomania_modo", "classico");
     salvar(sessionStorage, "ecomania_pontuacao", pontuacao);
     salvar(sessionStorage, "ecomania_vidas", vidas);
@@ -279,7 +287,6 @@ function terminarPartida() {
 
     window.location.href = "final.html";
 }
-
 
 function prepararLixeiras() {
     let lixeiras = document.querySelectorAll(".lixeira");
@@ -308,7 +315,6 @@ function prepararLixeiras() {
     }
 }
 
-
 function prepararResiduo() {
     let imagem = document.getElementById("residuo");
 
@@ -324,7 +330,6 @@ function prepararResiduo() {
     });
 }
 
-
 function comecarJogo() {
     aplicarDaltonico();
     prepararLixeiras();
@@ -332,7 +337,6 @@ function comecarJogo() {
     atualizarPainel();
     sortearResiduo();
 }
-
 
 function prepararMenu() {
     let caixa = document.getElementById("check-daltonico");
@@ -349,7 +353,6 @@ function prepararMenu() {
         }
     });
 }
-
 
 function mostrarResultado() {
     let modo = pegar(sessionStorage, "ecomania_modo", "");
@@ -405,7 +408,6 @@ function mostrarResultado() {
 
     escreverDica();
 }
-
 
 function escreverDica() {
     let pior = pegar(sessionStorage, "ecomania_pior", "");
