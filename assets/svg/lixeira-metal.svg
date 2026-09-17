@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" width="240" height="320">
+  <defs>
+    <linearGradient id="c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFCB52"/><stop offset=".38" stop-color="#F2A413"/>
+      <stop offset="1" stop-color="#B36F00"/>
+    </linearGradient>
+    <linearGradient id="t" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F2A413"/><stop offset=".42" stop-color="#FFCB52"/>
+      <stop offset="1" stop-color="#B36F00"/>
+    </linearGradient>
+    <radialGradient id="s" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#000" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="120" cy="298" rx="92" ry="20" fill="url(#s)"/>
+
+  <path d="M46 104h148l-15 176a11 11 0 0 1-11 10h-96a11 11 0 0 1-11-10z" fill="url(#c)"/>
+  <path d="M80 112l-9 166M120 112v166M160 112l9 166" stroke="#B36F00" stroke-width="3"
+        opacity=".28" stroke-linecap="round"/>
+  <path d="M46 104h10l-14 176a11 11 0 0 0 11 10h-1a11 11 0 0 1-11-10z" fill="#FFF" opacity=".22"/>
+
+  <rect x="72" y="150" width="96" height="96" rx="14" fill="#FFF" opacity=".95"/>
+  <g transform="translate(78,156) scale(.84)"><rect x="35" y="18" width="30" height="62" fill="#B36F00"/>
+                <ellipse cx="50" cy="80" rx="15" ry="6" fill="#B36F00"/>
+                <ellipse cx="50" cy="18" rx="15" ry="6" fill="#B36F00"/>
+                <ellipse cx="50" cy="18" rx="10" ry="3.5" fill="#FFF" opacity=".6"/>
+                <rect x="36" y="36" width="28" height="4" fill="#FFF" opacity=".42"/>
+                <rect x="36" y="60" width="28" height="4" fill="#FFF" opacity=".42"/></g>
+
+  <path d="M34 76h172a11 11 0 0 1 11 11v12a9 9 0 0 1-9 9h-176a9 9 0 0 1-9-9v-12a11 11 0 0 1 11-11z"
+        fill="url(#t)"/>
+  <path d="M34 76h172a11 11 0 0 1 11 11v4h-194v-4a11 11 0 0 1 11-11z" fill="#FFF" opacity=".28"/>
+  <path d="M99 52h42a9 9 0 0 1 9 9v15h-15v-9h-30v9h-15v-15a9 9 0 0 1 9-9z" fill="#B36F00"/>
+</svg>

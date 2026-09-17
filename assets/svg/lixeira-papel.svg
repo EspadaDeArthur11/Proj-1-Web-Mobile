@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 320" width="240" height="320">
+  <defs>
+    <linearGradient id="c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4A97E8"/><stop offset=".38" stop-color="#1565C0"/>
+      <stop offset="1" stop-color="#0B3F86"/>
+    </linearGradient>
+    <linearGradient id="t" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1565C0"/><stop offset=".42" stop-color="#4A97E8"/>
+      <stop offset="1" stop-color="#0B3F86"/>
+    </linearGradient>
+    <radialGradient id="s" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#000" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="120" cy="298" rx="92" ry="20" fill="url(#s)"/>
+
+  <path d="M46 104h148l-15 176a11 11 0 0 1-11 10h-96a11 11 0 0 1-11-10z" fill="url(#c)"/>
+  <path d="M80 112l-9 166M120 112v166M160 112l9 166" stroke="#0B3F86" stroke-width="3"
+        opacity=".28" stroke-linecap="round"/>
+  <path d="M46 104h10l-14 176a11 11 0 0 0 11 10h-1a11 11 0 0 1-11-10z" fill="#FFF" opacity=".22"/>
+
+  <rect x="72" y="150" width="96" height="96" rx="14" fill="#FFF" opacity=".95"/>
+  <g transform="translate(78,156) scale(.84)"><path d="M22 26h30l14 14v46a4 4 0 0 1-4 4h-40a4 4 0 0 1-4-4v-56a4 4 0 0 1 4-4z"
+                fill="#0B3F86" opacity=".45"/>
+                <path d="M36 12h30l14 14v50a4 4 0 0 1-4 4h-40a4 4 0 0 1-4-4v-60a4 4 0 0 1 4-4z" fill="#0B3F86"/>
+                <path d="M66 12l14 14h-14z" fill="#FFF" opacity=".55"/>
+                <rect x="44" y="38" width="28" height="5" rx="2.5" fill="#FFF" opacity=".6"/>
+                <rect x="44" y="50" width="28" height="5" rx="2.5" fill="#FFF" opacity=".6"/>
+                <rect x="44" y="62" width="18" height="5" rx="2.5" fill="#FFF" opacity=".6"/></g>
+
+  <path d="M34 76h172a11 11 0 0 1 11 11v12a9 9 0 0 1-9 9h-176a9 9 0 0 1-9-9v-12a11 11 0 0 1 11-11z"
+        fill="url(#t)"/>
+  <path d="M34 76h172a11 11 0 0 1 11 11v4h-194v-4a11 11 0 0 1 11-11z" fill="#FFF" opacity=".28"/>
+  <path d="M99 52h42a9 9 0 0 1 9 9v15h-15v-9h-30v9h-15v-15a9 9 0 0 1 9-9z" fill="#0B3F86"/>
+</svg>

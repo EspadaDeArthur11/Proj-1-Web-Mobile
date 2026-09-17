@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <!-- Base: mais claro no meio, escurecendo para as bordas.
+         Isso sozinho já guia o olho para o centro da tela. -->
+    <radialGradient id="palco" cx="0.5" cy="0.56" r="0.78">
+      <stop offset="0"    stop-color="#1E6B57"/>
+      <stop offset="0.42" stop-color="#14483E"/>
+      <stop offset="0.78" stop-color="#0C2E29"/>
+      <stop offset="1"    stop-color="#071D1A"/>
+    </radialGradient>
+
+    <!-- Luz de cima, como um refletor sobre o palco -->
+    <radialGradient id="refletor" cx="0.5" cy="0.42" r="0.5">
+      <stop offset="0"   stop-color="#7BE8B8" stop-opacity="0.20"/>
+      <stop offset="0.5" stop-color="#4FD6A0" stop-opacity="0.07"/>
+      <stop offset="1"   stop-color="#4FD6A0" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Chão: elipse de luz onde as lixeiras se apoiam -->
+    <radialGradient id="chao" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"    stop-color="#2E9877" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#227C61" stop-opacity="0.28"/>
+      <stop offset="1"    stop-color="#227C61" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Vinheta: escurece só os cantos -->
+    <radialGradient id="vinheta" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0.55" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1"    stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#palco)"/>
+
+  <g opacity="0.03">
+      <path d="M 960 260 1220 710 700 710 Z" fill="none" stroke="#FFFFFF"
+            stroke-width="74" stroke-linejoin="round"/>
+      <g transform="translate(960,260) rotate(-30)"><path d="M0 -62 L54 26 L-54 26 Z" fill="#FFFFFF"/></g><g transform="translate(1220,710) rotate(90)"><path d="M0 -62 L54 26 L-54 26 Z" fill="#FFFFFF"/></g><g transform="translate(700,710) rotate(210)"><path d="M0 -62 L54 26 L-54 26 Z" fill="#FFFFFF"/></g>
+    </g>
+
+  <!-- feixe do refletor -->
+  <ellipse cx="960" cy="440" rx="900" ry="620" fill="url(#refletor)"/>
+
+  <circle cx="180" cy="210" r="46" fill="#8FF0C4" opacity="0.045"/><circle cx="1710" cy="170" r="58" fill="#8FF0C4" opacity="0.04"/><circle cx="420" cy="130" r="30" fill="#8FF0C4" opacity="0.035"/><circle cx="1480" cy="300" r="38" fill="#8FF0C4" opacity="0.03"/><circle cx="300" cy="470" r="24" fill="#8FF0C4" opacity="0.028"/><circle cx="1640" cy="520" r="30" fill="#8FF0C4" opacity="0.026"/><circle cx="760" cy="120" r="22" fill="#8FF0C4" opacity="0.03"/><circle cx="1180" cy="90" r="34" fill="#8FF0C4" opacity="0.026"/><circle cx="120" cy="700" r="40" fill="#8FF0C4" opacity="0.022"/><circle cx="1820" cy="740" r="34" fill="#8FF0C4" opacity="0.022"/><circle cx="560" cy="250" r="18" fill="#8FF0C4" opacity="0.03"/><circle cx="1340" cy="210" r="22" fill="#8FF0C4" opacity="0.028"/>
+
+  <!-- linha do chão, quase imperceptível: dá pé para as lixeiras -->
+  <ellipse cx="960" cy="835" rx="820" ry="150" fill="url(#chao)"/>
+  <path d="M140 812 Q 960 762 1780 812" fill="none"
+        stroke="#5FD6A8" stroke-width="2" opacity="0.14"/>
+
+  <rect width="1920" height="1080" fill="url(#vinheta)"/>
+</svg>
