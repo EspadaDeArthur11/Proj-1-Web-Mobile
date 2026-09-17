@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> ECO MANIA - Aprenda a separar o lixo </title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <section id="tela-inicial" class="tela ativa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogo educativo sobre separação de resíduos, baseado nas cores da resolução CONAMA 275.">
+    <title>Eco Mania — aprenda a separar o lixo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body class="tela-menu">
 
-            <h1>ECO MANIA</h1>
+    <main class="painel painel-menu">
 
-            <p class="subtitulo"> aprenda a separar lixo jogando </p>
-            <p class="descricao"> 
-                "Um resíduo aparece na tela e você precisa mandar ele para a lixeira certa.
-                Errou? O jogo explica o porquê. São cinco lixeiras, seguindo as cores
-                oficiais da resolução CONAMA 275." </p>
-                
-            <a href="game_regular.html">
-                <button> MODO CLÁSSICO </button>
-                <small> 3 vidas, arrastando o resíduo </small>
+        <header class="marca">
+            <h1>ECO<span class="marca-destaque">MANIA</span></h1>
+            <p class="marca-faixa"></p>
+            <p class="subtitulo">Aprenda a separar o lixo jogando</p>
+        </header>
+
+        <p class="descricao">
+            Um resíduo aparece na tela e você manda ele para a lixeira certa.
+            Errou? O jogo explica o porquê na hora. São cinco lixeiras, seguindo
+            as cores oficiais da resolução CONAMA 275.
+        </p>
+
+        <nav class="modos">
+            <a class="modo modo-classico" href="game_regular.html">
+                <strong class="modo-nome">Modo clássico</strong>
+                <span class="modo-info">3 vidas · arrastando o resíduo</span>
             </a>
-            
-            <a href="game_timed.html">
-                <button> MODO POR TEMPO </button>
-                <small> 60 segundos, clicando na lixeira </small>
+
+            <a class="modo modo-tempo" href="game_timed.html">
+                <strong class="modo-nome">Modo por tempo</strong>
+                <span class="modo-info">60 segundos · clicando na lixeira</span>
             </a>
+        </nav>
 
-            <label class="opcao-acessibilidade">
-                <input type="checkbox" id="check-daltonico">
-                <span> Modo daltônico - Mostra o nome das lixeiras </span>
-            </label>
+        <label class="acessibilidade" for="check-daltonico">
+            <input type="checkbox" id="check-daltonico">
+            <span>Modo daltônico — escreve o nome em cada lixeira</span>
+        </label>
 
-        </section>
-    </body>
+    </main>
 
+</body>
 </html>
