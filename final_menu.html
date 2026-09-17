@@ -1,44 +1,57 @@
 <!DOCTYPE html>
-<html>
-  	<head>
-    	<meta charset="utf8">
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    	<meta title="MENU FINAL">
-    	<link rel="stylesheet" href="style.css">
-		<link rel="stylesheet" href="final_menu.css">
-  	</head>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Mania — resultado</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body class="tela-final">
 
-  	<body>
-    	<header>
-    		<title>PONTUAÇÃO FINAL</title>
-    	</header>
+    <main class="painel painel-final">
 
-    	<section id="tela final" class="modo clássico">
-      		<h2>Modo clássico</h2>
-      		<p>
-				Quantidade de vidas restantes <output id="vidas_classico">0</output>
-      			<br>
-      			Quantidade de acertos: <output id="acertos_classico">0</output>
-      			<br>
-      			Quantidade de acertos consecutivos <output id="consecutivos">0</output>
-      			<br>
-      			Quantidade de erros<output id="erros_classico">0</output>
-      		</p>
-    	</section>
+        <header class="cabecalho-final">
+            <p class="selo" id="selo">Fim de partida</p>
+            <h1 id="titulo-final">Acabaram as vidas</h1>
+            <p class="subtitulo" id="modo-jogado">Modo clássico</p>
+        </header>
 
-    	<section id="tela final" class="modo por tempo">
-      		<h2>Modo por tempo</h2>
-      		<p>
-				Quantidade de acertos <output id="acertos_tempo">0</output>
-      			<br>
-      			Quantidade de acertos consecutivos <output id="consecutivos_tempo">0</output>
-      			<br>
-      			Quantidade de erros <output id="erros_tempo">0</output>
-      		</p>
-    	</section>
+        <section class="destaque">
+            <p class="destaque-rotulo">Sua pontuação</p>
+            <output class="destaque-numero" id="pontuacao-final">120</output>
+            <p class="destaque-recorde" id="recorde">Seu recorde neste modo: 180</p>
+        </section>
 
-    	<a href="index.html">
-      		<button>Retornar ao menu</button>
-    	</a> 
-  	</body>
+        <section class="resultado" id="resultado-classico">
+            <h2>Modo clássico</h2>
+            <p class="linha">Vidas restantes <output id="vidas-classico">0</output></p>
+            <p class="linha">Acertos <output id="acertos-classico">9</output></p>
+            <p class="linha">Acertos consecutivos <output id="consecutivos-classico">4</output></p>
+            <p class="linha">Erros <output id="erros-classico">3</output></p>
+        </section>
+
+        <section class="resultado" id="resultado-tempo">
+            <h2>Modo por tempo</h2>
+            <p class="linha">Acertos <output id="acertos-tempo">0</output></p>
+            <p class="linha">Acertos consecutivos <output id="consecutivos-tempo">0</output></p>
+            <p class="linha">Erros <output id="erros-tempo">0</output></p>
+        </section>
+
+        <section class="licao" id="licao">
+            <h2>Para revisar</h2>
+            <p id="licao-texto">
+                Você errou mais na categoria metal. Latinha e papel alumínio vão
+                na lixeira amarela, mesmo o segundo tendo "papel" no nome.
+            </p>
+        </section>
+
+        <nav class="acoes">
+            <a class="botao botao-principal" id="jogar-de-novo" href="game_regular.html">Jogar de novo</a>
+            <a class="botao botao-discreto" href="index.html">Voltar ao menu</a>
+        </nav>
+
+    </main>
+
+</body>
 </html>
