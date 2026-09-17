@@ -605,6 +605,7 @@ input:focus-visible {
 @media (max-width: 900px) {
     body {
         padding: 24px 16px;
+        
     }
 
     .hud {
@@ -621,10 +622,16 @@ input:focus-visible {
 /* ---------- CELULAR ---------- */
 @media (max-width: 620px) {
 
+    html {
+        max-width: 100vh;
+    }
+
     body {
         background-attachment: scroll;
         padding: 18px 14px;
         gap: 16px;
+        max-width: 100vh;
+        overflow: hidden;
     }
 
     .painel-menu,
@@ -662,6 +669,11 @@ input:focus-visible {
 /* ---------- CELULAR ESTREITO ---------- */
 @media (max-width: 400px) {
 
+    body {
+        max-width: 100vh;
+        overflow: hidden;
+    }
+
     .lixeiras {
         gap: 8px;
     }
@@ -696,6 +708,8 @@ input:focus-visible {
         padding: 10px 16px;
         gap: 8px;
         background-attachment: scroll;
+        max-width: 100vh;
+        overflow: hidden;
     }
 
     .hud {
@@ -729,3 +743,4 @@ input:focus-visible {
 
     .botao { padding: 9px 20px; font-size: 13px; }
 }
+
