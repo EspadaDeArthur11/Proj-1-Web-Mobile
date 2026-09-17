@@ -443,3 +443,99 @@ if (document.getElementById("residuo")) {
 if (document.getElementById("titulo-final")) {
     mostrarResultado();      // estamos na tela de resultado
 }
+
+
+// Adicionar arrastabilidade do lixo
+
+let arrastando = false;
+let deslocamentoX = 0;
+let deslocamentoY = 0;
+
+const residuo = document.getElementById("residuo");
+
+residuo.addEventListener("pointerdown", iniciarArraste);
+
+function iniciarArraste(evento) {
+
+    evento.preventDefault();
+
+    arrastando = true;
+
+    const posicao =
+        residuo.getBoundingClientRect();
+
+    deslocamentoX =
+        evento.clientX - posicao.left;
+
+    deslocamentoY =
+        evento.clientY - posicao.top;
+
+    residuo.style.position = "fixed";
+    residuo.style.left = posicao.left + "px";
+    residuo.style.top = posicao.top + "px";
+    residuo.style.width = posicao.width + "px";
+    residuo.style.height = posicao.height + "px";
+    residuo.style.zIndex = "1000";
+    residuo.style.pointerEvents = "none";
+
+    document.addEventListener(
+        "pointermove",
+        moverResiduo
+    );
+
+    document.addEventListener(
+        "pointerup",
+        soltarResiduo
+    );
+}
+
+function moverResiduo(evento) {
+
+    if (!arrastando) return;
+
+    residuo.style.left =
+        (evento.clientX - deslocamentoX) + "px";
+
+    residuo.style.top =
+        (evento.clientY - deslocamentoY) + "px";
+}
+
+function soltarResiduo(evento) {
+
+    if (!arrastando) return;
+
+    arrastando = false;
+
+    const elemento =
+        document.elementFromPoint(
+            evento.clientX,
+            evento.clientY
+        );
+
+    const lixeira =
+        elemento?.closest(".lixeira");
+
+    if (lixeira) {
+        verificarResposta(
+            lixeira.dataset.tipo
+        );
+    }
+
+    residuo.style.position = "";
+    residuo.style.left = "";
+    residuo.style.top = "";
+    residuo.style.width = "";
+    residuo.style.height = "";
+    residuo.style.zIndex = "";
+    residuo.style.pointerEvents = "";
+
+    document.removeEventListener(
+        "pointermove",
+        moverResiduo
+    );
+
+    document.removeEventListener(
+        "pointerup",
+        soltarResiduo
+    );
+}
