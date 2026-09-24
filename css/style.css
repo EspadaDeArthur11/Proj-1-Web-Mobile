@@ -683,7 +683,6 @@ input:focus-visible {
         padding: 18px 14px;
         gap: 16px;
         max-width: 100vh;
-        overflow: hidden;
         overflow-y: auto;
     }
 
@@ -724,7 +723,6 @@ input:focus-visible {
 
     body {
         max-width: 100vh;
-        overflow: hidden;
         overflow-y: auto;
     }
 
@@ -763,7 +761,6 @@ input:focus-visible {
         gap: 8px;
         background-attachment: scroll;
         max-width: 100vh;
-        overflow: hidden;
         overflow-y: auto;
     }
 
