@@ -20,10 +20,12 @@ Hoje em dia, não há muito engajamento à separação correta de resíduos, o q
 
 ## Como irá funcionar?
 
-Na tela inicial irá conter o nome do jogo, uma breve descrição e dois botões para selecionar o modo de jogo(modo clássico e modo por tempo).
+Na tela inicial contém o nome do jogo, uma breve descrição e dois botões para selecionar o modo de jogo(modo clássico e modo por tempo).
 
-O modo clássico irá contar com cinco lixeiras de cores que representam seus respectivos tipos de reciclagem(vidro, plástico, papel, orgânico e metal), nessa mesma tela irá conter um contador de vidas e um contador de pontos, ambos irão diminuir e aumentar respectivamente de acordo com os erros e acertos do usuário. No meio da tela irão aparecer as imagens de cada tipo de resíduo e o usuário deverá clicar e arrastar o resíduo para a lixeira correspondente, e enquanto as vidas não acabem, os resíduos irão continuar aparecendo.
+O modo clássico conta com cinco lixeiras de cores que representam seus respectivos tipos de reciclagem(vidro, plástico, papel, orgânico e metal), nessa mesma tela há um contador de vidas e um contador de pontos, ambos diminuem e aumentam respectivamente de acordo com os erros e acertos do usuário.
 
-O modo por tempo irá ter a mesma lógica de acertar o resíduo na lixeira correspondente, a diferença é que não terá vidas, somente uma contagem regressiva de 1 minuto para o usuário acertar quantas lixeiras conseguir. Nesse modo o usuário só precisará clicar na lixeira correspondente, não terá interação com o resíduo em si, sem clicar e arrastar.
+O modo por tempo tem a mesma lógica de acertar o resíduo na lixeira correspondente, a diferença é que não há vidas, somente uma contagem regressiva de 1 minuto para o usuário acertar quantas lixeiras conseguir.
 
-Ao final de qualquer modo de jogo, terá uma tela de finalização mostrando brevemente sua pontuação.
+Em ambos os modos, as imagens de cada tipo de resíduo aparecem no meio da tela e o usuário deve ou clicar e arrastar o resíduo para a lixeira correspondente, ou clicar na lixeira correspondente direto, e enquanto as vidas/tempo não acabem, os resíduos irão continuar aparecendo.
+
+Ao final de qualquer modo de jogo, tem uma tela de finalização mostrando brevemente sua pontuação.
