@@ -184,6 +184,57 @@ body {
 }
 
 
+/* histórico das duas últimas partidas, na tela inicial */
+.historico {
+    margin-top: 24px;
+    padding: 16px 18px;
+    background-color: rgba(0, 0, 0, 0.18);
+    border: 1px solid var(--linha);
+    border-radius: var(--curva-p);
+    text-align: left;
+}
+
+.historico h2 {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--texto-fraco);
+    margin-bottom: 8px;
+    border: none;
+    padding: 0;
+}
+
+.historico-linha {
+    font-size: 13px;
+    color: var(--texto-medio);
+    padding: 5px 0;
+}
+
+.historico-linha + .historico-linha {
+    color: var(--texto-fraco);
+    border-top: 1px solid var(--linha);
+}
+
+/* touch-action: none avisa o navegador que o dedo nesta imagem
+   é para arrastar, e não para rolar a página. Sem isso, no
+   celular a página rola e o arrasto nunca acontece. */
+.residuo {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+
+    /* position: relative faz o z-index do arrasto valer */
+    position: relative;
+}
+
+/* durante o arrasto a imagem não reage ao hover nem faz
+   transição, senão ela "persegue" o dedo com atraso */
+.residuo.arrastando {
+    transition: none;
+    opacity: 0.9;
+}
+
 .acessibilidade {
     display: flex;
     align-items: center;

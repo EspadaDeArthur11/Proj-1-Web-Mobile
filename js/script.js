@@ -1,12 +1,13 @@
 /* =========================================================
-   Índice:
-     1. A lista de resíduos
-     2. As variáveis do jogo
-     3. Funções de salvar e ler
-     4. Funções do jogo
-     5. O que roda em cada página
+   ECO MANIA — script.js
+   Carregado pelas quatro páginas. No final do arquivo tem a
+   parte que decide o que roda em cada uma.
    ========================================================= */
 
+
+/* =========================================================
+   1. A LISTA DE RESÍDUOS
+   ========================================================= */
 
 let residuos = [
 
@@ -70,13 +71,21 @@ let nomesLixeira = {
     metal: "metal"
 };
 
+/* =========================================================
+   2. AS VARIÁVEIS DO JOGO
+   ========================================================= */
+
+let modoAtual = "classico";   // vira "tempo" se a página tiver relógio
 
 let pontuacao = 0;
 let vidas = 3;
 let acertos = 0;
 let erros = 0;
 let consecutivos = 0;        
-let melhorSequencia = 0;     
+let melhorSequencia = 0;    
+
+let tempoRestante = 60;
+let cronometro = null;        // guarda o setInterval para poder cancelar
 
 let residuoAtual = null;     
 let posicaoAnterior = -1;    
@@ -90,6 +99,17 @@ let errosPorCategoria = {
     organico: 0,
     metal: 0
 };
+
+/* =========================================================
+   3. SALVAR E LER
+
+   localStorage   — continua salvo depois de fechar o navegador
+   sessionStorage — some quando a aba fecha
+
+   O try/catch protege o jogo: se alguém abrir o arquivo com
+   dois cliques na pasta, alguns navegadores bloqueiam essas
+   gavetas e disparam erro.
+   ========================================================= */
 
 
 function salvar(gaveta, chave, valor) {
@@ -129,10 +149,15 @@ function aplicarDaltonico() {
     }
 }
 
+/* =========================================================
+   4. FUNÇÕES DO JOGO
+   ========================================================= */
+
 
 function sortearResiduo() {
     let posicao = Math.floor(Math.random() * residuos.length);
 
+    // se caiu o mesmo da rodada anterior, sorteia de novo
     while (posicao === posicaoAnterior) {
         posicao = Math.floor(Math.random() * residuos.length);
     }
@@ -143,12 +168,15 @@ function sortearResiduo() {
     let imagem = document.getElementById("residuo");
     imagem.src = "assets/residuos/" + residuoAtual.arquivo;
 
+    // o alt diz o nome do objeto, nunca a categoria:
+    // senão o leitor de tela entregaria a resposta
     imagem.alt = residuoAtual.nome;
 
     document.getElementById("residuo-nome").textContent = residuoAtual.nome;
 }
 
-
+/* A função mais importante. O clique e o arrastar chamam ela,
+   então a regra do jogo existe num lugar só. */
 function verificarResposta(lixeiraEscolhida) {
 
     if (podeJogar === false) {
@@ -160,6 +188,7 @@ function verificarResposta(lixeiraEscolhida) {
 
     if (lixeiraEscolhida === residuoAtual.categoria) {
 
+        // ---------- ACERTOU ----------
         acertos = acertos + 1;
         consecutivos = consecutivos + 1;
 
@@ -178,13 +207,23 @@ function verificarResposta(lixeiraEscolhida) {
         }
 
         mostrarFeedback(mensagem, "acerto");
-        tempoDePausa = 1200;
+        // no modo por tempo a pausa é menor: o relógio não para
+        if (modoAtual === "tempo") {
+            tempoDePausa = 600;
+        } else {
+            tempoDePausa = 1200;
+        }
 
     } else {
 
+        // ---------- ERROU ----------
         erros = erros + 1;
         consecutivos = 0;
-        vidas = vidas - 1;
+        
+        // só o modo clássico tem vidas
+        if (modoAtual === "classico") {
+            vidas = vidas - 1;
+        }
 
         let categoriaCerta = residuoAtual.categoria;
         errosPorCategoria[categoriaCerta] = errosPorCategoria[categoriaCerta] + 1;
@@ -194,12 +233,17 @@ function verificarResposta(lixeiraEscolhida) {
 
         mostrarFeedback(mensagem, "erro");
 
-        tempoDePausa = 3000;
+        if (modoAtual === "tempo") {
+            tempoDePausa = 1600;
+        } else {
+            tempoDePausa = 3000;
+        }
     }
 
     atualizarPainel();
 
-    if (vidas <= 0) {
+    // no modo clássico a partida acaba quando zeram as vidas
+    if (modoAtual === "classico" && vidas <= 0) {
         setTimeout(terminarPartida, tempoDePausa);
     } else {
         setTimeout(proximaRodada, tempoDePausa);
@@ -208,10 +252,21 @@ function verificarResposta(lixeiraEscolhida) {
 
 
 function proximaRodada() {
+    // se o tempo acabou durante a pausa, não continua
+    if (modoAtual === "tempo" && tempoRestante <= 0) {
+        return;
+    }
+
     podeJogar = true;
 
     let faixa = document.getElementById("feedback");
-    faixa.textContent = "Arraste o resíduo até a lixeira certa, ou clique nela.";
+
+    if (modoAtual === "tempo") {
+        faixa.textContent = "Clique ou arraste até a lixeira certa.";
+    } else {
+        faixa.textContent = "Arraste o resíduo até a lixeira certa, ou clique nela.";
+    }
+
     faixa.className = "feedback";
 
     sortearResiduo();
@@ -220,6 +275,17 @@ function proximaRodada() {
 
 function atualizarPainel() {
     document.getElementById("pontuacao").textContent = pontuacao;
+
+    // cada modo tem um marcador diferente no painel
+    if (modoAtual === "classico") {
+        mostrarVidas();
+    } else {
+        mostrarTempo();
+    }
+}
+
+
+function mostrarVidas() {
 
     let coracoes = "";
 
@@ -234,6 +300,45 @@ function atualizarPainel() {
     document.getElementById("vidas").textContent = coracoes;
 }
 
+function mostrarTempo() {
+    let minutos = Math.floor(tempoRestante / 60);
+    let segundos = tempoRestante % 60;
+
+    // o % devolve o resto da divisão: 75 % 60 dá 15
+    if (segundos < 10) {
+        segundos = "0" + segundos;
+    }
+
+    document.getElementById("tempo").textContent = minutos + ":" + segundos;
+}
+
+
+/* setInterval repete a função a cada intervalo, sem parar, até
+   alguém chamar clearInterval. */
+function iniciarCronometro() {
+
+    cronometro = setInterval(function () {
+        tempoRestante = tempoRestante - 1;
+        mostrarTempo();
+
+        if (tempoRestante <= 0) {
+            pararCronometro();
+            podeJogar = false;
+            mostrarFeedback("Tempo esgotado!", "erro");
+            setTimeout(terminarPartida, 1200);
+        }
+    }, 1000);
+}
+
+
+/* Sem este clearInterval o relógio continua correndo em
+   segundo plano. Se o jogador jogar duas vezes seguidas sem
+   recarregar a página, ficam dois cronômetros rodando e o
+   tempo cai de dois em dois. */
+function pararCronometro() {
+    clearInterval(cronometro);
+    cronometro = null;
+}
 
 function mostrarFeedback(texto, tipo) {
     let faixa = document.getElementById("feedback");
@@ -256,18 +361,96 @@ function categoriaComMaisErros() {
     return pior;
 }
 
+/* =========================================================
+   5. HISTÓRICO DAS DUAS ÚLTIMAS PARTIDAS
+
+   Cada partida vira uma frase pronta. Assim não precisa de
+   JSON: é só texto entrando e saindo do localStorage.
+
+   Funciona como uma fila de duas posições. Quando entra uma
+   partida nova, a que era "última" passa a ser "penúltima", e
+   a penúltima antiga é descartada.
+   ========================================================= */
+
+function montarTextoDaPartida(modo, pontos) {
+    let nomeModo = "Modo clássico";
+
+    if (modo === "tempo") {
+        nomeModo = "Modo por tempo";
+    }
+
+    let agora = new Date();
+
+    let dia = agora.getDate();
+    let mes = agora.getMonth() + 1;    // getMonth devolve 0 para janeiro
+    let hora = agora.getHours();
+    let minuto = agora.getMinutes();
+
+    // acrescenta o zero à esquerda quando o número tem um dígito
+    if (dia < 10)    { dia = "0" + dia; }
+    if (mes < 10)    { mes = "0" + mes; }
+    if (hora < 10)   { hora = "0" + hora; }
+    if (minuto < 10) { minuto = "0" + minuto; }
+
+    return nomeModo + " · " + pontos + " pontos · " +
+           dia + "/" + mes + " às " + hora + ":" + minuto;
+}
+
+
+function guardarNoHistorico(modo, pontos) {
+    // o que era a última passa a ser a penúltima
+    let ultimaAntiga = pegar(localStorage, "ecomania_ultima", "");
+    salvar(localStorage, "ecomania_penultima", ultimaAntiga);
+
+    // a partida que acabou de terminar vira a última
+    salvar(localStorage, "ecomania_ultima", montarTextoDaPartida(modo, pontos));
+}
+
+
+function mostrarHistorico() {
+    let ultima = pegar(localStorage, "ecomania_ultima", "");
+    let penultima = pegar(localStorage, "ecomania_penultima", "");
+
+    let bloco = document.getElementById("historico");
+
+    // quem nunca jogou não precisa ver um bloco vazio
+    if (ultima === "") {
+        bloco.style.display = "none";
+        return;
+    }
+
+    document.getElementById("historico-ultima").textContent = ultima;
+
+    if (penultima === "") {
+        document.getElementById("historico-penultima").style.display = "none";
+    } else {
+        document.getElementById("historico-penultima").textContent = penultima;
+    }
+}
+
+
+/* =========================================================
+   6. FIM DA PARTIDA
+   ========================================================= */
 
 function terminarPartida() {
-    let recordeAntigo = Number(pegar(localStorage, "ecomania_recorde_classico", 0));
+    pararCronometro();
+    podeJogar = false;
+
+    let chaveRecorde = "ecomania_recorde_" + modoAtual;
+    let recordeAntigo = Number(pegar(localStorage, chaveRecorde, 0));
     let bateuRecorde = "nao";
 
+    // Number() converte texto em número. Sem isso "90" > "100"
+    // daria verdadeiro, porque a comparação seria letra a letra.
     if (pontuacao > recordeAntigo) {
-        salvar(localStorage, "ecomania_recorde_classico", pontuacao);
+        salvar(localStorage, chaveRecorde, pontuacao);
         recordeAntigo = pontuacao;
         bateuRecorde = "sim";
     }
 
-    salvar(sessionStorage, "ecomania_modo", "classico");
+    guardarNoHistorico(modoAtual, pontuacao);
+    salvar(sessionStorage, "ecomania_modo", modoAtual);
     salvar(sessionStorage, "ecomania_pontuacao", pontuacao);
     salvar(sessionStorage, "ecomania_vidas", vidas);
     salvar(sessionStorage, "ecomania_acertos", acertos);
@@ -277,9 +460,14 @@ function terminarPartida() {
     salvar(sessionStorage, "ecomania_bateu_recorde", bateuRecorde);
     salvar(sessionStorage, "ecomania_pior", categoriaComMaisErros());
 
-    window.location.href = "final.html";
+    
+    window.location.href = "final_menu.html";
 }
 
+
+/* =========================================================
+   7. CLIQUE NAS LIXEIRAS
+   ========================================================= */
 
 function prepararLixeiras() {
     let lixeiras = document.querySelectorAll(".lixeira");
@@ -287,50 +475,178 @@ function prepararLixeiras() {
     for (let i = 0; i < lixeiras.length; i++) {
         let botao = lixeiras[i];
 
+        // dataset.tipo lê o atributo data-tipo do HTML
         botao.addEventListener("click", function () {
-            verificarResposta(botao.dataset.tipo);
-        });
-
-        botao.addEventListener("dragover", function (evento) {
-            evento.preventDefault();
-            botao.classList.add("sobrevoo");
-        });
-
-        botao.addEventListener("dragleave", function () {
-            botao.classList.remove("sobrevoo");
-        });
-
-        botao.addEventListener("drop", function (evento) {
-            evento.preventDefault();
-            botao.classList.remove("sobrevoo");
             verificarResposta(botao.dataset.tipo);
         });
     }
 }
 
+/* =========================================================
+   8. ARRASTAR O RESÍDUO
 
-function prepararResiduo() {
-    let imagem = document.getElementById("residuo");
+   Usamos eventos de ponteiro (pointerdown, pointermove,
+   pointerup) no lugar dos de mouse.
 
-    imagem.addEventListener("dragstart", function (evento) {
-        /* O Firefox não começa o arrasto se nada for colocado
-           no dataTransfer, mesmo que a gente não use o valor. */
-        evento.dataTransfer.setData("text/plain", residuoAtual.categoria);
-        imagem.classList.add("arrastando");
-    });
+   É isso que faz o jogo funcionar no celular: o navegador
+   trata dedo, mouse e caneta como a mesma coisa, então um
+   código só atende os três. Com mousedown, o toque na tela
+   simplesmente não dispararia nada.
+   ========================================================= */
 
-    imagem.addEventListener("dragend", function () {
-        imagem.classList.remove("arrastando");
-    });
+let arrastando = false;
+let pontoInicialX = 0;
+let pontoInicialY = 0;
+let lixeiraSobrevoada = null;
+
+function prepararArraste() {
+    let residuo = document.getElementById("residuo");
+    residuo.addEventListener("pointerdown", iniciarArraste);
 }
 
 
+function iniciarArraste(evento) {
+    if (podeJogar === false) {
+        return;
+    }
+
+    evento.preventDefault();
+    arrastando = true;
+
+    // guarda onde o dedo encostou, para calcular o quanto
+    // ele andou a partir dali
+    pontoInicialX = evento.clientX;
+    pontoInicialY = evento.clientY;
+
+    let residuo = document.getElementById("residuo");
+
+    residuo.style.zIndex = "1000";
+
+    // sem isto, elementFromPoint devolveria a própria imagem em
+    // vez da lixeira que está embaixo dela
+    residuo.style.pointerEvents = "none";
+
+    residuo.classList.add("arrastando");
+
+    document.addEventListener("pointermove", moverResiduo);
+    document.addEventListener("pointerup", soltarResiduo);
+    document.addEventListener("pointercancel", soltarResiduo);
+}
+
+function moverResiduo(evento) {
+    if (arrastando === false) {
+        return;
+    }
+
+    // o quanto o dedo andou desde que encostou
+    let deslocouX = evento.clientX - pontoInicialX;
+    let deslocouY = evento.clientY - pontoInicialY;
+
+    let residuo = document.getElementById("residuo");
+
+    /* transform desloca a imagem só na aparência: ela continua
+       ocupando o mesmo espaço no layout.
+
+       Se usássemos position: fixed, a imagem sairia do fluxo,
+       a página inteira subiria e as lixeiras mudariam de lugar
+       no meio do arrasto — soltar em cima delas erraria o alvo. */
+    residuo.style.transform = "translate(" + deslocouX + "px, " + deslocouY + "px)";
+
+    destacarLixeiraEmbaixo(evento.clientX, evento.clientY);
+}
+
+/* Acende a lixeira que está embaixo do resíduo durante o
+   arrasto. Sem isso o jogador solta às cegas. */
+function destacarLixeiraEmbaixo(x, y) {
+    let lixeira = acharLixeiraEm(x, y);
+
+    // se continua sobre a mesma lixeira, não precisa fazer nada
+    if (lixeira === lixeiraSobrevoada) {
+        return;
+    }
+
+    if (lixeiraSobrevoada !== null) {
+        lixeiraSobrevoada.classList.remove("sobrevoo");
+    }
+
+    if (lixeira !== null) {
+        lixeira.classList.add("sobrevoo");
+    }
+
+    lixeiraSobrevoada = lixeira;
+}
+
+/* elementFromPoint devolve o elemento que está naquele ponto
+   da tela. closest sobe pelos pais até achar uma lixeira, o
+   que resolve quando o dedo cai sobre a imagem ou sobre o nome
+   dentro do botão. */
+function acharLixeiraEm(x, y) {
+    let elemento = document.elementFromPoint(x, y);
+
+    if (elemento === null) {
+        return null;
+    }
+
+    return elemento.closest(".lixeira");
+}
+
+function soltarResiduo(evento) {
+    if (arrastando === false) {
+        return;
+    }
+
+    arrastando = false;
+
+    let lixeira = acharLixeiraEm(evento.clientX, evento.clientY);
+
+    devolverResiduoAoLugar();
+
+    document.removeEventListener("pointermove", moverResiduo);
+    document.removeEventListener("pointerup", soltarResiduo);
+    document.removeEventListener("pointercancel", soltarResiduo);
+
+    if (lixeira !== null) {
+        verificarResposta(lixeira.dataset.tipo);
+    }
+}
+
+/* Limpa os estilos que o arrasto aplicou, para a imagem voltar
+   a obedecer o CSS. */
+function devolverResiduoAoLugar() {
+    let residuo = document.getElementById("residuo");
+
+    residuo.style.transform = "";
+    residuo.style.zIndex = "";
+    residuo.style.pointerEvents = "";
+
+    residuo.classList.remove("arrastando");
+
+    if (lixeiraSobrevoada !== null) {
+        lixeiraSobrevoada.classList.remove("sobrevoo");
+        lixeiraSobrevoada = null;
+    }
+}
+
+/* =========================================================
+   9. COMEÇAR
+   ========================================================= */
 function comecarJogo() {
+    // é a página do relógio ou a das vidas?
+    if (document.getElementById("tempo")) {
+        modoAtual = "tempo";
+    } else {
+        modoAtual = "classico";
+    }
+
     aplicarDaltonico();
     prepararLixeiras();
-    prepararResiduo();
+    prepararArraste();
     atualizarPainel();
     sortearResiduo();
+
+    if (modoAtual === "tempo") {
+        iniciarCronometro();
+    }
 }
 
 
@@ -348,12 +664,18 @@ function prepararMenu() {
             document.body.classList.remove("daltonico");
         }
     });
+
+    mostrarHistorico();
 }
 
+/* =========================================================
+   10. TELA DE RESULTADO
+   ========================================================= */
 
 function mostrarResultado() {
     let modo = pegar(sessionStorage, "ecomania_modo", "");
 
+    // abriu final.html sem ter jogado: volta para o menu
     if (modo === "") {
         window.location.href = "index.html";
         return;
@@ -433,108 +755,13 @@ function escreverDica() {
 
 
 if (document.getElementById("check-daltonico")) {
-    prepararMenu();          // estamos na tela inicial
+    prepararMenu();          // tela inicial
 }
 
 if (document.getElementById("residuo")) {
-    comecarJogo();           // estamos numa tela de jogo
+    comecarJogo();           // uma das telas de jogo
 }
 
 if (document.getElementById("titulo-final")) {
-    mostrarResultado();      // estamos na tela de resultado
-}
-
-
-
-let arrastando = false;
-let deslocamentoX = 0;
-let deslocamentoY = 0;
-
-const residuo = document.getElementById("residuo");
-
-residuo.addEventListener("mousedown", iniciarArraste);
-
-function iniciarArraste(evento) {
-
-    evento.preventDefault();
-
-    arrastando = true;
-
-    const posicao =
-        residuo.getBoundingClientRect();
-
-    deslocamentoX =
-        evento.clientX - posicao.left;
-
-    deslocamentoY =
-        evento.clientY - posicao.top;
-
-    residuo.style.position = "fixed";
-    residuo.style.left = posicao.left + "px";
-    residuo.style.top = posicao.top + "px";
-    residuo.style.width = posicao.width + "px";
-    residuo.style.height = posicao.height + "px";
-    residuo.style.zIndex = "1000";
-    residuo.style.pointerEvents = "none";
-
-    document.addEventListener(
-        "mousemove",
-        moverResiduo
-    );
-
-    document.addEventListener(
-        "mouseup",
-        soltarResiduo
-    );
-}
-
-function moverResiduo(evento) {
-
-    if (!arrastando) return;
-
-    residuo.style.left =
-        (evento.clientX - deslocamentoX) + "px";
-
-    residuo.style.top =
-        (evento.clientY - deslocamentoY) + "px";
-}
-
-function soltarResiduo(evento) {
-
-    if (!arrastando) return;
-
-    arrastando = false;
-
-    const elemento =
-        document.elementFromPoint(
-            evento.clientX,
-            evento.clientY
-        );
-
-    const lixeira =
-        elemento?.closest(".lixeira");
-
-    if (lixeira) {
-        verificarResposta(
-            lixeira.dataset.tipo
-        );
-    }
-
-    residuo.style.position = "";
-    residuo.style.left = "";
-    residuo.style.top = "";
-    residuo.style.width = "";
-    residuo.style.height = "";
-    residuo.style.zIndex = "";
-    residuo.style.pointerEvents = "";
-
-    document.removeEventListener(
-        "mousemove",
-        moverResiduo
-    );
-
-    document.removeEventListener(
-        "mouseup",
-        soltarResiduo
-    );
+    mostrarResultado();      // tela de resultado
 }
