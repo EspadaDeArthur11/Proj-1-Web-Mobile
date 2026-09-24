@@ -657,7 +657,7 @@ input:focus-visible {
 @media (max-width: 900px) {
     body {
         padding: 24px 16px;
-        
+        overflow-y: auto;
     }
 
     .hud {
@@ -684,6 +684,7 @@ input:focus-visible {
         gap: 16px;
         max-width: 100vh;
         overflow: hidden;
+        overflow-y: auto;
     }
 
     .painel-menu,
@@ -724,6 +725,7 @@ input:focus-visible {
     body {
         max-width: 100vh;
         overflow: hidden;
+        overflow-y: auto;
     }
 
     .lixeiras {
@@ -762,6 +764,7 @@ input:focus-visible {
         background-attachment: scroll;
         max-width: 100vh;
         overflow: hidden;
+        overflow-y: auto;
     }
 
     .hud {
